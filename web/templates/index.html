@@ -15,13 +15,12 @@
   </form>
   <h2>Routers List</h2>
   <ul>
-    {% for comment in data %}
+    {% for router in routers %}
     <li>
-      {{ comment.ip }} - {{ comment.username }}
-      <form method="POST" action="{{ url_for('delete_comment') }}" style="display:inline">
-        <input type="hidden" name="idx" value="{{ loop.index0 }}">
-        <button type="submit">Delete</button>
-      </form>
+      {{ router.ip }} - {{ router.username }}
+      <form method="POST" action="{{ url_for('delete_router', id=router._id) }}" style="display:inline">
+      <button type="submit">Delete</button>
+</form>
     </li>
     {% endfor %}
   </ul>
