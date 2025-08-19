@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <title>Router Detail</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+    <h1>Router: {{ ip }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Interface</th>
+                <th>IP Address</th>
+                <th>Status</th>
+                <th>Protocol</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for status in router_detail %}
+            {% for itf in status.interfaces %}
+            <tr>
+                <td>{{ status.timestamp }}</td>
+                <td>{{ itf.interface }}</td>
+                <td>{{ itf.ip_address }}</td>
+                <td>{{ itf.status }}</td>
+                <td>{{ itf.proto }}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>

@@ -21,12 +21,15 @@ def set_router_interfaces(ip, interfaces):
     client = MongoClient(mongo_uri)
     db = client[db_name]
     routers = db["interface_status"]
-
-    routers.insert_one({
-            "router_ip": ip,
-            "timestamp": datetime.now(),
-            "interfaces": interfaces
-        })
+    if interfaces:
+        routers.insert_one({
+                "router_ip": ip,
+                "timestamp": datetime.now(),
+                "interfaces": interfaces
+            })
+    else:
+        print("Invalid Interfaces list!")
+        return
 
 if __name__=='__main__':
     get_router_info()
