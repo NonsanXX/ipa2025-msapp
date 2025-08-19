@@ -37,6 +37,19 @@ services:
       DB_NAME: "ipa2025_db"
       RABBITMQ_HOST: rabbitmq
 
+  worker:
+    build: ./worker
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-net
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/"
+      DB_NAME: "ipa2025_db"
+      RABBITMQ_HOST: rabbitmq
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -52,7 +65,6 @@ services:
 
 volumes:
   mongo-data:
-
 
 networks:
   app-net:
