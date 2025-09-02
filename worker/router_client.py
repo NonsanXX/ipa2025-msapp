@@ -16,4 +16,3 @@ def get_interfaces(host, username, password):
             return output
     except Exception as e:
         print("Failed to Connect!:", e)
-

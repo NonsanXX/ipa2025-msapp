@@ -1,21 +1,5 @@
-import pika, os, sys, time, json
-from get_interfaces import get_interfaces
-from database import save_router_interfaces
-
-def callback(ch, method, properties, body):
-    data = json.loads(body.decode("utf-8"))
-    ip = data['ip']
-    usr = data['username']
-    pwd = data['password']
-
-    print(f"Received job for router {ip}")
-    output = get_interfaces(ip, usr, pwd)
-    print(json.dumps(output, indent=2))
-    
-    save_router_interfaces(ip, output)
-    print(f"Stored interface status for {ip}")
-    time.sleep(60)
-
+import pika, os, sys, time
+from callback import callback
 
 def connect():
     username = os.environ.get("RABBITMQ_DEFAULT_USER")
@@ -45,12 +29,9 @@ def connect():
 def worker():
     conn = connect()
     channel = conn.channel()
-    channel.queue_declare(queue='router_jobs')
+    channel.queue_declare(queue="router_jobs")
     channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(queue='router_jobs',
-                      auto_ack=True,
-                      on_message_callback=callback)
-    
+    channel.basic_consume(queue="router_jobs", on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
 

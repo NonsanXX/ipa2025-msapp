@@ -1,9 +1,7 @@
 import os
-from datetime import datetime
+from datetime import datetime, UTC
 
 from pymongo import MongoClient
-
-
 
 def get_router_info():
     mongo_uri = os.environ.get("MONGO_URI")
@@ -24,7 +22,7 @@ def save_router_interfaces(ip, interfaces):
     if interfaces:
         routers.insert_one({
                 "router_ip": ip,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(UTC),
                 "interfaces": interfaces
             })
     else:
