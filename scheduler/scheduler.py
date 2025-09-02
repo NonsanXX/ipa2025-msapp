@@ -1,4 +1,5 @@
-import time, os
+import time
+import os
 
 from bson import json_util
 from producer import produce

@@ -1,6 +1,4 @@
 from netmiko import ConnectHandler
-from textfsm import TextFSM
-
 
 def get_interfaces(host, username, password):
     router = {
