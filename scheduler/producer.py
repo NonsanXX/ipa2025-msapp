@@ -1,12 +1,13 @@
 import pika
 import os
 
+
 def produce(host, body):
     username = os.environ.get("RABBITMQ_DEFAULT_USER")
     password = os.environ.get("RABBITMQ_DEFAULT_PASS")
     credentials = pika.PlainCredentials(username, password)
-
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=host, credentials=credentials))
+    connection = pika.BlockingConnection(pika.ConnectionParameters
+                                        (host=host, credentials=credentials))
 
     channel = connection.channel()
 
