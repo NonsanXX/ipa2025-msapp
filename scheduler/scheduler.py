@@ -8,7 +8,7 @@ from database import get_router_info
 
 def scheduler():
 
-    INTERVAL = 60.0
+    INTERVAL = 30.0
     next_run = time.monotonic()
     count = 0
     host = os.environ.get("RABBITMQ_HOST", "rabbitmq")

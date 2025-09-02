@@ -34,7 +34,7 @@ def add_router():
 @app.route("/router/<ip>", methods=["GET"])
 def router_detail(ip):
     result = list(
-        int_status.find({"router_ip": ip}).sort("timestamp", DESCENDING).limit(3)
+        int_status.find({"router_ip": ip}).sort("timestamp", DESCENDING).limit(5)
     )
     print(result)
     return render_template("router_detail.html", ip=ip, router_detail=result)
