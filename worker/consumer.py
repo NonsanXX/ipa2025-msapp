@@ -1,6 +1,7 @@
 import pika, os, sys, time
 from callback import callback
 
+
 def connect():
     username = os.environ.get("RABBITMQ_DEFAULT_USER")
     password = os.environ.get("RABBITMQ_DEFAULT_PASS")
@@ -26,12 +27,15 @@ def connect():
             time.sleep(3)
     raise RuntimeError("RabbitMQ unreachable")
 
+
 def consume():
     conn = connect()
     channel = conn.channel()
     channel.queue_declare(queue="router_jobs")
     channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(queue="router_jobs", on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(
+        queue="router_jobs", on_message_callback=callback, auto_ack=True
+    )
     channel.start_consuming()
 
 
@@ -39,7 +43,7 @@ if __name__ == "__main__":
     try:
         consume()
     except KeyboardInterrupt:
-        print('Interrupted')
+        print("Interrupted")
         try:
             sys.exit(0)
         except SystemExit:

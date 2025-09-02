@@ -3,6 +3,7 @@ from datetime import datetime, UTC
 
 from pymongo import MongoClient
 
+
 def get_router_info():
     mongo_uri = os.environ.get("MONGO_URI")
     db_name = os.environ.get("DB_NAME")
@@ -13,6 +14,7 @@ def get_router_info():
     router_data = routers.find()
     return router_data
 
+
 def save_router_interfaces(ip, interfaces):
     mongo_uri = os.environ.get("MONGO_URI")
     db_name = os.environ.get("DB_NAME")
@@ -20,14 +22,13 @@ def save_router_interfaces(ip, interfaces):
     db = client[db_name]
     routers = db["interface_status"]
     if interfaces:
-        routers.insert_one({
-                "router_ip": ip,
-                "timestamp": datetime.now(UTC),
-                "interfaces": interfaces
-            })
+        routers.insert_one(
+            {"router_ip": ip, "timestamp": datetime.now(UTC), "interfaces": interfaces}
+        )
     else:
         print("Invalid Interfaces list!")
         return
 
-if __name__=='__main__':
+
+if __name__ == "__main__":
     get_router_info()
