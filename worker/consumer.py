@@ -26,7 +26,7 @@ def connect():
             time.sleep(3)
     raise RuntimeError("RabbitMQ unreachable")
 
-def worker():
+def consume():
     conn = connect()
     channel = conn.channel()
     channel.queue_declare(queue="router_jobs")
@@ -37,7 +37,7 @@ def worker():
 
 if __name__ == "__main__":
     try:
-        worker()
+        consume()
     except KeyboardInterrupt:
         print('Interrupted')
         try:
