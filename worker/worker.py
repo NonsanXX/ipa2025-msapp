@@ -45,6 +45,7 @@ def worker():
     conn = connect()
     channel = conn.channel()
     channel.queue_declare(queue='router_jobs')
+    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue='router_jobs',
                       auto_ack=True,
                       on_message_callback=callback)
