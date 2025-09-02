@@ -19,14 +19,25 @@ def callback(ch, method, properties, body):
 def connect():
     username = os.environ.get("RABBITMQ_DEFAULT_USER")
     password = os.environ.get("RABBITMQ_DEFAULT_PASS")
-    credentials = pika.PlainCredentials(username, password)
     host = os.environ.get("RABBITMQ_HOST", "rabbitmq")
+    credentials = pika.PlainCredentials(username, password)
+
+    # A few robustness tweaks
+    params = pika.ConnectionParameters(
+        host=host,
+        credentials=credentials,
+        heartbeat=30,
+        blocked_connection_timeout=60,
+        connection_attempts=10,
+        retry_delay=3,
+    )
+
     for i in range(10):
-        print(f"Connecting to RabbitMQ (try {i})...")
+        print(f"Connecting to RabbitMQ (try {i+1})...")
         try:
-            return pika.BlockingConnection(pika.ConnectionParameters(host=host, credentials=credentials))
+            return pika.BlockingConnection(params)
         except pika.exceptions.AMQPConnectionError as e:
-            print("Failed:", exit)
+            print("Failed:", e)
             time.sleep(3)
     raise RuntimeError("RabbitMQ unreachable")
 

@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, request, render_template, redirect
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 from bson import ObjectId
 
 app = Flask(__name__)
@@ -34,7 +34,7 @@ def add_router():
 
 @app.route("/router/<ip>", methods=["GET"])
 def router_detail(ip):
-    result = list(int_status.find({"router_ip": ip}))
+    result = list(int_status.find({"router_ip": ip}).sort("timestamp", DESCENDING).limit(3))
     print(result)
     return render_template("router_detail.html", ip=ip, router_detail=result)
 
