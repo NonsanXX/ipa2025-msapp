@@ -2,6 +2,7 @@ import os
 import ntc_templates
 from netmiko import ConnectHandler
 
+
 def get_interfaces(host, username, password):
     os.environ["NET_TEXTFSM"] = os.path.join(
         os.path.dirname(ntc_templates.__file__), "templates"
