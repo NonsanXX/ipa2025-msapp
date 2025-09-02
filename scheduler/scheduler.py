@@ -31,7 +31,9 @@ def scheduler():
         # schedule next run exactly 30s after the previous scheduled one
         next_run += INTERVAL
         sleep_time = max(0.0, next_run - time.monotonic())
-        print(f"  work took {time.monotonic() - start:.2f}s, sleeping {sleep_time:.2f}s")
+        print(
+            f"  work took {time.monotonic() - start:.2f}s, sleeping {sleep_time:.2f}s"
+        )
         time.sleep(sleep_time)
 
         count += 1
