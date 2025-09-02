@@ -1,6 +1,6 @@
 import pika, os, sys, time, json
 from get_interfaces import get_interfaces
-from database import set_router_interfaces
+from database import save_router_interfaces
 
 def callback(ch, method, properties, body):
     data = json.loads(body.decode("utf-8"))
@@ -12,8 +12,9 @@ def callback(ch, method, properties, body):
     output = get_interfaces(ip, usr, pwd)
     print(json.dumps(output, indent=2))
     
-    set_router_interfaces(ip, output)
+    save_router_interfaces(ip, output)
     print(f"Stored interface status for {ip}")
+    time.sleep(60)
 
 
 def connect():
@@ -32,8 +33,8 @@ def connect():
         retry_delay=3,
     )
 
-    for i in range(10):
-        print(f"Connecting to RabbitMQ (try {i+1})...")
+    for attempt in range(10):
+        print(f"Connecting to RabbitMQ (try {attempt+1})...")
         try:
             return pika.BlockingConnection(params)
         except pika.exceptions.AMQPConnectionError as e:

@@ -15,7 +15,7 @@ def get_router_info():
     router_data = routers.find()
     return router_data
 
-def set_router_interfaces(ip, interfaces):
+def save_router_interfaces(ip, interfaces):
     mongo_uri = os.environ.get("MONGO_URI")
     db_name = os.environ.get("DB_NAME")
     client = MongoClient(mongo_uri)
