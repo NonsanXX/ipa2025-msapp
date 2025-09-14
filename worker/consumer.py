@@ -8,7 +8,7 @@ from callback import callback
 def connect():
     username = os.environ.get("RABBITMQ_DEFAULT_USER")
     password = os.environ.get("RABBITMQ_DEFAULT_PASS")
-    host = os.environ.get("RABBITMQ_HOST", "rabbitmq")
+    host = host = os.getenv("RABBITMQ_HOST")
     credentials = pika.PlainCredentials(username, password)
 
     # A few robustness tweaks

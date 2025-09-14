@@ -8,7 +8,7 @@ from database import get_router_info
 
 def scheduler():
     INTERVAL = 30.0
-    host = os.environ.get("RABBITMQ_HOST", "rabbitmq")
+    host = os.getenv("RABBITMQ_HOST")
     count = 0
 
     # first tick happens immediately, next one is aligned
